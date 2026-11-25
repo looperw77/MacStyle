@@ -1,0 +1,19 @@
+name: build
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+      - run: .\build.ps1
+        shell: powershell
+      - run: .\tests\run.ps1
+        shell: powershell
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MacStyle
+          path: |
+            build/MacStyle.exe
+            build/MacStyle-Update-v2.exe
